@@ -1,0 +1,34 @@
+import Sidebar from '../components/Sidebar';
+import NoChatSelected from '../components/NoChatSelected';
+import ChatContainer from '../components/ChatContainer';
+import { useChatStore } from "../store/useChatStore";
+import { useAuthStore } from "../store/useAuthStore"; // Assuming there's a store for authentication
+
+const HomePage = () => {
+  const { selectedUser } = useChatStore();
+  const { authUser } = useAuthStore();
+
+  // Handle loading or login state
+  if (!authUser) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <h2 className="text-xl">Please log in to continue</h2>
+      </div>
+    );
+  }
+
+  return (
+    <div className="h-screen bg-base-200">
+      <div className="flex items-center justify-center pt-20 px-4">
+        <div className="bg-base-100 rounded-lg shadow-cl w-full max-w-6xl h-[calc(100vh-8rem)]">
+          <div className="flex h-full rounded-lg overflow-hidden">
+            <Sidebar />
+            {selectedUser ? <ChatContainer /> : <NoChatSelected />}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default HomePage;
